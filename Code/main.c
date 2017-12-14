@@ -119,35 +119,112 @@ int fill_and_count_squares_Sudoku ( int value_list[ ] )
      return( sum ) ;
     }
 
-int main ( void )
-    {int solution_found , number_squares ;
-     Size_bloc = 5 ;
-     setup_Lines_Columns_Blocs( ) ;
-     Optimise_one = 1 ;
-     Optimise_two = 1 ;
-     number_squares = fill_and_count_squares_Sudoku( Grid_twenty_five_1 ) ;
+int main ( void ){
+  int solution_found , number_squares ;
+  Size_bloc = 5 ;
+  setup_Lines_Columns_Blocs( ) ;
+  Optimise_one = 1 ;
+  Optimise_two = 1 ;
+  number_squares = fill_and_count_squares_Sudoku( Grid_nine_1 ) ;
+  print_Sudoku( ) ;
+  solution_found = back_track( number_squares ) ;
+  if ( solution_found )
+    {(void)printf( "\nNous avons trouvé la solution :\n\n" ) ;
      print_Sudoku( ) ;
-     solution_found = back_track( number_squares ) ;
-     if ( solution_found )
-        {(void)printf( "\nNous avons trouvé la solution :\n\n" ) ;
-         print_Sudoku( ) ;
-        }
-     else
-        (void)printf( "\nNous n'avons pas trouvé de solution.\n" ) ;
-     (void)printf( "Bye !" ) ;
-     return( 0 ) ;
     }
+  else
+    (void)printf( "\nNous n'avons pas trouvé de solution.\n" ) ;
+  (void)printf( "Bye !" ) ;
+  return( 0 ) ;
+}
 
 /* --Les--autres--prototypes------------------------------------------------- */
 
-/* Ce sont les proptotypes des autres fonctions que vous introduisez. */
+/* Fonctions d'impression */
+void print_star_line(void);
+void print_dash_line(void);
+void print_empty_line(void);
+void print_line(int);
 
 /* --La--fonction--d--impression--------------------------------------------- */
+void print_star_line(void){
+  int i;
+  for(i = 0; i < Size; i++){
+    printf("*****");
+  }
+  printf("*\n");
+}
 
-void print_Sudoku ( void )
-     {
-      /* ... */
-     }
+void print_dash_line(void){
+  int i, j;
+  // Boucle pour le nombre de blocs.
+  for(i = 0; i < Size_bloc; i++){
+    printf("*");
+    // Boucle pour le nombre d'élément dans un bloc
+    for(j = 0; j < Size_bloc; j++){
+      printf("----");
+      // Condition pour éviter de mettre un + en trop
+      if(j < Size_bloc-1)
+        printf("+");
+    }
+  }
+  // On ferme la grille
+  printf("*\n");
+}
+
+void print_empty_line(void){
+  int i, j;
+  // Boucle pour le nombre de blocs.
+  for(i = 0; i < Size_bloc; i++){
+    printf("*");
+    // Boucle pour le nombre d'élément dans un bloc
+    for(j = 0; j < Size_bloc; j++){
+      printf("    ");
+      // Condition pour éviter de mettre un | en trop
+      if(j < Size_bloc-1)
+        printf("|");
+    }
+  }
+  printf("*\n");
+}
+
+void print_line(int lineNumber){
+  int i, j;
+  int counter = 1; // Nous permet de garder la position sur la ligne
+  // Boucle pour le nombre de blocs.
+  for(i = 0; i < Size_bloc; i++){
+    printf("*");
+    // Boucle pour le nombre d'élément dans un bloc
+    for(j = 0; j < Size_bloc; j++){
+      printf(" %2d ", *Sudoku[ lineNumber ][ counter ]);
+      // Condition pour éviter de mettre un | en trop
+      if(j < Size_bloc-1)
+        printf("|");
+      counter++;
+    }
+  }
+  // On ferme la grille
+  printf("*\n");
+}
+
+void print_Sudoku ( void ){
+  int i, j;
+  int counter = 1;
+  // Boucle sur le nombre de blocs
+  for(i = 0; i < Size_bloc; i++){
+    print_star_line();
+    // Boucle sur le nombre de lignes par blocs
+    for(j = 0; j < Size_bloc; j++){
+      print_empty_line();
+      print_line(counter);
+      print_empty_line();
+      if(j < Size_bloc -1)
+        print_dash_line();
+      counter++;
+    }
+  }
+  print_star_line();
+}
 
 /* Les fonctions auxiliaires de print_Sudoku */
 
