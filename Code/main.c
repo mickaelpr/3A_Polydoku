@@ -214,11 +214,21 @@ void fill_possibilities ( void ){
         initialize_possibilities( Sudoku[i][j] );
         // On regarde les valeurs sur la ligne, on enlève les valeurs présentes
       }
+      else{
       // Alors : On passe a la suivante
       /* Sinon :
         -
         - On regarde les valeurs sur la ligne, on enlève les valeurs présentes
         - On fait pareil pour la colonne et le bloc*/
+        /*
+        au cretin qui a mis dix an a trouver ça :
+        trouver l'indice du square :
+        X = x-(x%3)
+        Y = y-(y%3)
+        I = (X+3Y)+1 I indice du square
+        */
+        set_possibilities()
+      }
     }
   }
 }
@@ -232,6 +242,10 @@ void initialize_possibilities( int* cell ){
   }
   // On initialise le COUNT avec le nombre d'éléments
   cell[COUNT] = Size;
+}
+
+void set_possibilities(){
+
 }
 
 /* --Les--optimisations------------------------------------------------------ */
