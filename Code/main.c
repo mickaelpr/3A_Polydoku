@@ -146,6 +146,24 @@ void print_dash_line(void);
 void print_line(int);
 
 /* --La--fonction--d--impression--------------------------------------------- */
+void print_Sudoku ( void ){
+  int i, j;
+  int counter = 1;
+  // Boucle sur le nombre de blocs
+  for(i = 0; i < Size_bloc; i++){
+    print_star_line();
+    // Boucle sur le nombre de lignes par blocs
+    for(j = 0; j < Size_bloc; j++){
+      print_line(counter);
+      if(j < Size_bloc -1)
+        print_dash_line();
+      counter++;
+    }
+  }
+  print_star_line();
+}
+
+/* Les fonctions auxiliaires de print_Sudoku */
 void print_star_line(void){
   int i;
   for(i = 0; i < Size; i++){
@@ -193,31 +211,11 @@ void print_line(int lineNumber){
   printf("*\n");
 }
 
-void print_Sudoku ( void ){
-  int i, j;
-  int counter = 1;
-  // Boucle sur le nombre de blocs
-  for(i = 0; i < Size_bloc; i++){
-    print_star_line();
-    // Boucle sur le nombre de lignes par blocs
-    for(j = 0; j < Size_bloc; j++){
-      print_line(counter);
-      if(j < Size_bloc -1)
-        print_dash_line();
-      counter++;
-    }
-  }
-  print_star_line();
-}
-
-/* Les fonctions auxiliaires de print_Sudoku */
-
 /* --Le--raisonnement--au--niveau--zero-------------------------------------- */
 
-void fill_possibilities ( void )
-     {
-      /* ... */
-     }
+void fill_possibilities ( void ){
+
+}
 
 /* Les fonctions auxiliaires de fill_possibilities */
 
