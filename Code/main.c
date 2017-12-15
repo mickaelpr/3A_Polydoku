@@ -134,6 +134,9 @@ void print_line(int);
 /* Fonctions pour les possibilités */
 void initialize_possibilities(int*);
 
+/* Fonctions auxiliaires du back_track */
+int* search_less_possibilities_cell( void );
+
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_Sudoku ( void ){
   int i, j;
@@ -236,10 +239,9 @@ void initialize_possibilities( int* cell ){
 
 /* --Les--optimisations------------------------------------------------------ */
 
-int optimise_possibilities ( int * squares[ ] )
-    {
-     /* ... */
-    }
+int optimise_possibilities ( int * squares[ ] ){
+
+}
 
 /* --Une--valeur--proposee--une--seule--fois--------------------------------- */
 /* Les fonctions correspondant a la premiere optimisation */
@@ -247,10 +249,61 @@ int optimise_possibilities ( int * squares[ ] )
 /* Les fonctions correspondant a la seconde optimisation */
 /* --Le--back--track--------------------------------------------------------- */
 
-int back_track ( int squares_filled )
-    {
-     /* ... */
+int back_track ( int squares_filled ){
+  int* cell;
+  int i, result;
+  // Si squares_filled == Size*Size, on retourne 1 : la grille est complète
+  if(squares_filled == (Size * Size))
+    return 1;
+  // Sinon :
+  else{
+    // on calcule les possibilités pour les cases vides
+    fill_possibilities();
+    // on cherche la case vide ayant le moins de possibilités
+    cell = search_less_possibilities_cell();
+    // Si le nombre de possibilités de la cellule est 0 : alors on s'est trompé
+    if(cell[COUNT] == 0)
+      return 0;
+    // Sinon on parcourt les différentes possibilités
+    for(i = 1; i <= Size; i++){
+      // On ne prend que les valeurs possibles
+      if(cell[i] == 1){
+        // On essaie avec la valeur i dans cette case
+        cell[VALUE] = i;
+        result = back_track( squares_filled +1 );
+        // Si le résultat est possitif, alors on renvoie 1
+        if(result == 1)
+          return 1;
+        // Sinon on remet la valeur à 0 et on change de valeur
+        else {
+          cell[VALUE] = 0;
+          // TODO: Est-ce qu'on enlève la possibilité de i aussi? (cell[i] = 0?)
+        }
+      }
+      // On essaie en sortant de la boucle au cas ou... TODO: vraiment utile?
+      if(cell[VALUE] == 0)
+        return 0;
     }
+  }
+}
 
 /* Les fonctions auxiliaires de back_track */
+
+int* search_less_possibilities_cell( void ){
+  int i, j;
+  // Variables temporaires pour le choix de la cellule
+  int* temp_cell;
+  int min_possibility_count = 10;
+
+  for(i = 1; i <= Size; i++){
+    for(j = 1; j <= Size; j++){
+      if((*Sudoku[i][j] == 0) && (Sudoku[i][j][COUNT] < min_possibility_count)){
+        temp_cell = Sudoku[i][j];
+        min_possibility_count = temp_cell[COUNT];
+      }
+    }
+  }
+  return temp_cell;
+}
+
 /* -------------------------------------------------------------------------- */
