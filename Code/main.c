@@ -131,16 +131,24 @@ int main ( void ){
 
 void print_Sudoku ( void )
      {
-      /* ... */
+
      }
 
 /* Les fonctions auxiliaires de print_Sudoku */
 /* --Le--raisonnement--au--niveau--zero-------------------------------------- */
 
-void fill_possibilities ( void )
-     {
-      /* ... */
-     }
+void fill_possibilities ( void ){
+      int i; //indice troisième dimension sudoku
+      for ( li = 1 ; li <= Size ; li++ ){
+          for ( co = 1 ; co <= Size ; co++ ){
+               if(Sudoku[ li ][ co ][ VALUE ] == 0 ){
+                 for(i=1; i<size+2; i++){
+                   Sudoku[ li ][ co ][ VALUE ] = 1
+                 }
+               }
+          }
+      }
+}
 
 /* Les fonctions auxiliaires de fill_possibilities */
 /* --Les--optimisations------------------------------------------------------ */
