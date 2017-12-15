@@ -143,14 +143,13 @@ int main ( void ){
 /* Fonctions d'impression */
 void print_star_line(void);
 void print_dash_line(void);
-void print_empty_line(void);
 void print_line(int);
 
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_star_line(void){
   int i;
   for(i = 0; i < Size; i++){
-    printf("*****");
+    printf("***");
   }
   printf("*\n");
 }
@@ -162,29 +161,13 @@ void print_dash_line(void){
     printf("*");
     // Boucle pour le nombre d'élément dans un bloc
     for(j = 0; j < Size_bloc; j++){
-      printf("----");
+      printf("--");
       // Condition pour éviter de mettre un + en trop
       if(j < Size_bloc-1)
         printf("+");
     }
   }
   // On ferme la grille
-  printf("*\n");
-}
-
-void print_empty_line(void){
-  int i, j;
-  // Boucle pour le nombre de blocs.
-  for(i = 0; i < Size_bloc; i++){
-    printf("*");
-    // Boucle pour le nombre d'élément dans un bloc
-    for(j = 0; j < Size_bloc; j++){
-      printf("    ");
-      // Condition pour éviter de mettre un | en trop
-      if(j < Size_bloc-1)
-        printf("|");
-    }
-  }
   printf("*\n");
 }
 
@@ -197,9 +180,9 @@ void print_line(int lineNumber){
     // Boucle pour le nombre d'élément dans un bloc
     for(j = 0; j < Size_bloc; j++){
       if(*Sudoku[ lineNumber ][ counter ] != 0)
-        printf(" %2d ", *Sudoku[ lineNumber ][ counter ]);
+        printf("%2d", *Sudoku[ lineNumber ][ counter ]);
       else
-        printf("    ");
+        printf("  ");
       // Condition pour éviter de mettre un | en trop
       if(j < Size_bloc-1)
         printf("|");
@@ -218,9 +201,7 @@ void print_Sudoku ( void ){
     print_star_line();
     // Boucle sur le nombre de lignes par blocs
     for(j = 0; j < Size_bloc; j++){
-      print_empty_line();
       print_line(counter);
-      print_empty_line();
       if(j < Size_bloc -1)
         print_dash_line();
       counter++;
