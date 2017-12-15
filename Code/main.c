@@ -196,7 +196,10 @@ void print_line(int lineNumber){
     printf("*");
     // Boucle pour le nombre d'élément dans un bloc
     for(j = 0; j < Size_bloc; j++){
-      printf(" %2d ", *Sudoku[ lineNumber ][ counter ]);
+      if(*Sudoku[ lineNumber ][ counter ] != 0)
+        printf(" %2d ", *Sudoku[ lineNumber ][ counter ]);
+      else
+        printf("    ");
       // Condition pour éviter de mettre un | en trop
       if(j < Size_bloc-1)
         printf("|");
