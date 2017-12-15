@@ -145,6 +145,9 @@ void print_star_line(void);
 void print_dash_line(void);
 void print_line(int);
 
+/* Fonctions pour les possibilités */
+void initialize_possibilities(int*);
+
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_Sudoku ( void ){
   int i, j;
@@ -214,10 +217,36 @@ void print_line(int lineNumber){
 /* --Le--raisonnement--au--niveau--zero-------------------------------------- */
 
 void fill_possibilities ( void ){
-
+  int i, j;
+  // Boucle sur les lignes
+  for(i = 0; i < Size; i++){
+    // Boucle sur les colonnes --> parcours de toutes les cases de la grille
+    for(j = 0; j < Size; j++){
+      // Test : Est-ce que la case a une valeur?
+      if(Sudoku[i][j][0] == 0){
+        // On initialise les valeurs possibles a 1
+        initialize_possibilities( Sudoku[i][j] );
+        // On regarde les valeurs sur la ligne, on enlève les valeurs présentes
+      }
+      // Alors : On passe a la suivante
+      /* Sinon :
+        -
+        - On regarde les valeurs sur la ligne, on enlève les valeurs présentes
+        - On fait pareil pour la colonne et le bloc*/
+    }
+  }
 }
 
 /* Les fonctions auxiliaires de fill_possibilities */
+void initialize_possibilities( int* cell ){
+  int i;
+  // On initialise TOUTES les possibilités à 1
+  for(i = 1; i <= Size; i++){
+    cell[i] = 1;
+  }
+  // On initialise le COUNT avec le nombre d'éléments
+  cell[COUNT] = Size;
+}
 
 /* --Les--optimisations------------------------------------------------------ */
 
