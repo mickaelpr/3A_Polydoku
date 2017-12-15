@@ -95,67 +95,37 @@ void optimise ( void ){
       }
 
 int fill_and_count_squares_Sudoku ( int value_list[ ] ){
-      int li , co , value , index = 0 , sum = 0 ;
-      for ( li = 1 ; li <= Size ; li++ )
-         for ( co = 1 ; co <= Size ; co++ ){
-              value = value_list[ index ++ ] ;
-              Sudoku[ li ][ co ][ VALUE ] = value ;
-              if ( value )
-                 sum++ ;
-             }
-     return( sum ) ;
-     }
+  int li , co , value , index = 0 , sum = 0 ;
+  for ( li = 1 ; li <= Size ; li++ )
+     for ( co = 1 ; co <= Size ; co++ ){
+          value = value_list[ index ++ ] ;
+          Sudoku[ li ][ co ][ VALUE ] = value ;
+          if ( value )
+             sum++ ;
+         }
+ return( sum ) ;
+}
 
 int main ( void ){
-<<<<<<< HEAD
-     int solution_found , number_squares ;
-     Size_bloc = 5 ;
-     setup_Lines_Columns_Blocs( ) ;
-     Optimise_one = 1 ;
-     Optimise_two = 1 ;
-     number_squares = fill_and_count_squares_Sudoku( Grid_twenty_five_1 ) ;
-     print_Sudoku( ) ;
-     solution_found = back_track( number_squares ) ;
-     if ( solution_found ){
-         (void)printf( "\nNous avons trouvé la solution :\n\n" ) ;
-         print_Sudoku( ) ;
-        }
-     else
-        (void)printf( "\nNous n'avons pas trouvé de solution.\n" ) ;
-     (void)printf( "Bye !" ) ;
-     return( 0 ) ;
-=======
-  int solution_found , number_squares ;
-  Size_bloc = 5 ;
-  setup_Lines_Columns_Blocs( ) ;
-  Optimise_one = 1 ;
-  Optimise_two = 1 ;
-  number_squares = fill_and_count_squares_Sudoku( Grid_nine_1 ) ;
-  print_Sudoku( ) ;
-  solution_found = back_track( number_squares ) ;
-  if ( solution_found )
-    {(void)printf( "\nNous avons trouvé la solution :\n\n" ) ;
-     print_Sudoku( ) ;
->>>>>>> Mika
-    }
-  else
-    (void)printf( "\nNous n'avons pas trouvé de solution.\n" ) ;
-  (void)printf( "Bye !" ) ;
-  return( 0 ) ;
+   int solution_found , number_squares ;
+   Size_bloc = 5 ;
+   setup_Lines_Columns_Blocs( ) ;
+   Optimise_one = 1 ;
+   Optimise_two = 1 ;
+   number_squares = fill_and_count_squares_Sudoku( Grid_twenty_five_1 ) ;
+   print_Sudoku( ) ;
+   solution_found = back_track( number_squares ) ;
+   if ( solution_found ){
+       (void)printf( "\nNous avons trouvé la solution :\n\n" ) ;
+       print_Sudoku( ) ;
+      }
+   else
+      (void)printf( "\nNous n'avons pas trouvé de solution.\n" ) ;
+   (void)printf( "Bye !" ) ;
+   return( 0 ) ;
 }
 
 /* --Les--autres--prototypes------------------------------------------------- */
-<<<<<<< HEAD
-/* Ce sont les proptotypes des autres fonctions que vous introduisez. */
-/* --La--fonction--d--impression--------------------------------------------- */
-=======
-
-<<<<<<< HEAD
-void print_Sudoku ( void )
-     {
-
-     }
-=======
 /* Fonctions d'impression */
 void print_star_line(void);
 void print_dash_line(void);
@@ -163,7 +133,6 @@ void print_line(int);
 
 /* Fonctions pour les possibilités */
 void initialize_possibilities(int*);
->>>>>>> Mika
 
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_Sudoku ( void ){
@@ -182,11 +151,8 @@ void print_Sudoku ( void ){
   }
   print_star_line();
 }
->>>>>>> 26252f67cc204244ae31328330eade6c1537b79e
 
 /* Les fonctions auxiliaires de print_Sudoku */
-<<<<<<< HEAD
-=======
 void print_star_line(void){
   int i;
   for(i = 0; i < Size; i++){
@@ -234,22 +200,9 @@ void print_line(int lineNumber){
   printf("*\n");
 }
 
->>>>>>> Mika
 /* --Le--raisonnement--au--niveau--zero-------------------------------------- */
 
 void fill_possibilities ( void ){
-<<<<<<< HEAD
-      int i; //indice troisième dimension sudoku
-      for ( li = 1 ; li <= Size ; li++ ){
-          for ( co = 1 ; co <= Size ; co++ ){
-               if(Sudoku[ li ][ co ][ VALUE ] == 0 ){
-                 for(i=1; i<size+2; i++){
-                   Sudoku[ li ][ co ][ VALUE ] = 1
-                 }
-               }
-          }
-      }
-=======
   int i, j;
   // Boucle sur les lignes
   for(i = 0; i < Size; i++){
@@ -268,12 +221,9 @@ void fill_possibilities ( void ){
         - On fait pareil pour la colonne et le bloc*/
     }
   }
->>>>>>> 26252f67cc204244ae31328330eade6c1537b79e
 }
 
 /* Les fonctions auxiliaires de fill_possibilities */
-<<<<<<< HEAD
-=======
 void initialize_possibilities( int* cell ){
   int i;
   // On initialise TOUTES les possibilités à 1
@@ -284,7 +234,6 @@ void initialize_possibilities( int* cell ){
   cell[COUNT] = Size;
 }
 
->>>>>>> Mika
 /* --Les--optimisations------------------------------------------------------ */
 
 int optimise_possibilities ( int * squares[ ] )
