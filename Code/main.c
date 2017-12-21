@@ -271,7 +271,7 @@ int back_track ( int squares_filled ){
         // On essaie avec la valeur i dans cette case
         cell[VALUE] = i;
         result = back_track( squares_filled +1 );
-        // Si le résultat est possitif, alors on renvoie 1
+        // Si le résultat est vrai, alors on renvoie 1
         if(result == 1)
           return 1;
         // Sinon on remet la valeur à 0 et on change de valeur
