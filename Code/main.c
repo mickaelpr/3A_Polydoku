@@ -226,22 +226,22 @@ void fill_possibilities ( void ){
         - On regarde les valeurs sur la ligne, on enlève les valeurs présentes
         - On fait pareil pour la colonne et le bloc*/
         // Boucle sur les lignes
-  for(i = 1; i <= Size; i++){
+//  for(i = 1; i <= Size; i++){
     // Boucle sur les colonnes --> parcours de toutes les cases de la grille
-      for(j = 1; j <= Size; j++){
+  //    for(j = 1; j <= Size; j++){
       // Test : Est-ce que la case a une valeur?
-      if(Sudoku[i][j][0] == 0){
+    //  if(Sudoku[i][j][0] == 0){
         // On trouve les valeurs possibles de la case
-        //i = 2; j = 1;
+        i = 2; j = 2;
         set_possibilities( Sudoku[i][j], j, i );
         int k;
-        for(k = 1; k <= Size; k++){
-          printf("- %i -", Sudoku[1][1][k]);
+        for(k = 1; k <= Size+1; k++){
+          printf("- %i -", Sudoku[i][j][k]);
         }
         printf("\n");
-      }
-    }
-  }
+      //}
+    //}
+  //}
 }
 
 /* Les fonctions auxiliaires de fill_possibilities */
@@ -261,20 +261,19 @@ void set_possibilities ( int* cell, int x, int y ){
   bloc_label = indice_bloc(x, y);
   //on parcours les possibles de la cellule
   //on parcours les ligne/col/bloc
-
   for(i = 1 ; i <= Size ; i++){
     //on met a 0 les valeur != 0 de la ligne/col/bloc dans le cell
-    if(Lines[y][i][0] != 0 && cell[Lines[y][i][0]] != 0){
-      cell[Lines[y][i][0]] = 0;
-      //cell[COUNT] --;
+    if((Lines[y][i][VALUE] != 0)&&(cell[Lines[y][i][VALUE]] != 0)){
+      cell[Lines[y][i][VALUE]] = 0;
+      cell[COUNT] --;
     }
-    if(Columns[x][i][0] != 0 && cell[Columns[x][i][0]] != 0){
-      cell[Columns[x][i][0]] = 0;
-      //cell[COUNT] --;
+    if((Columns[x][i][VALUE] != 0)&&(cell[Columns[x][i][VALUE]] != 0)){
+      cell[Columns[x][i][VALUE]] = 0;
+      cell[COUNT] --;
     }
-    if(Blocs[bloc_label][i][0] != 0 && cell[Blocs[bloc_label][i][0]] != 0){
-        cell[Blocs[bloc_label][i][0]] = 0;
-        //cell[COUNT] --;!
+    if((Blocs[bloc_label][i][VALUE] != 0)&&(cell[Blocs[bloc_label][i][VALUE]] != 0)){
+      cell[Blocs[bloc_label][i][VALUE]] = 0;
+      cell[COUNT] --;
     }
     //on décrémente le nombre de possible
   }
