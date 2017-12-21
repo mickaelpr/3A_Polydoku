@@ -209,9 +209,9 @@ void print_line(int lineNumber){
 void fill_possibilities ( void ){
   int i, j;
   // Boucle sur les lignes
-  for(i = 0; i < Size; i++){
+  for(i = 1; i <= Size; i++){
     // Boucle sur les colonnes --> parcours de toutes les cases de la grille
-    for(j = 0; j < Size; j++){
+    for(j = 1; j <= Size; j++){
       // Test : Est-ce que la case a une valeur?
       if(Sudoku[i][j][0] == 0){
         // On initialise les valeurs possibles a 1
@@ -230,14 +230,9 @@ for(i = 1; i <= Size; i++){
     // Boucle sur les colonnes --> parcours de toutes les cases de la grille
     for(j = 1; j <= Size; j++){
       // Test : Est-ce que la case a une valeur?
-      if(Sudoku[i][j][0] == 0){
+      if(Sudoku[i][j][VALUE] == 0){
         // On trouve les valeurs possibles de la case
         set_possibilities( Sudoku[i][j], j, i );
-        int k;
-        for(k = 1; k <= Size+1; k++){
-          printf("- %i -", Sudoku[i][j][k]);
-        }
-        printf("\n");
       }
     }
   }
@@ -278,8 +273,6 @@ void set_possibilities ( int* cell, int x, int y ){
   }
 }
 
-
-
 /* --Les--optimisations------------------------------------------------------ */
 
 int optimise_possibilities ( int * squares[ ] )
@@ -309,7 +302,7 @@ int indice_bloc(int x, int y){
   remplacer les 3 par Size_bloc
   */
   int bloc_label;
-  bloc_label = (x-(x%Size_bloc))+Size_bloc*(y-(y%Size_bloc))+ 1;
+  bloc_label = 3*((y-1)/3)+((x-1)/3)+1;
 
   return bloc_label;
 }
