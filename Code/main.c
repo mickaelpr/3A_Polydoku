@@ -226,22 +226,21 @@ void fill_possibilities ( void ){
         - On regarde les valeurs sur la ligne, on enlève les valeurs présentes
         - On fait pareil pour la colonne et le bloc*/
         // Boucle sur les lignes
-//  for(i = 1; i <= Size; i++){
+for(i = 1; i <= Size; i++){
     // Boucle sur les colonnes --> parcours de toutes les cases de la grille
-  //    for(j = 1; j <= Size; j++){
+    for(j = 1; j <= Size; j++){
       // Test : Est-ce que la case a une valeur?
-    //  if(Sudoku[i][j][0] == 0){
+      if(Sudoku[i][j][0] == 0){
         // On trouve les valeurs possibles de la case
-        i = 2; j = 2;
         set_possibilities( Sudoku[i][j], j, i );
         int k;
         for(k = 1; k <= Size+1; k++){
           printf("- %i -", Sudoku[i][j][k]);
         }
         printf("\n");
-      //}
-    //}
-  //}
+      }
+    }
+  }
 }
 
 /* Les fonctions auxiliaires de fill_possibilities */
