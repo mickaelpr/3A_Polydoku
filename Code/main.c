@@ -50,6 +50,9 @@ void fill_possibilities ( void ) ;
 int optimise_possibilities ( int * squares[ ] ) ;
 int back_track ( int squares_filled ) ;
 
+/* --Les--prototypes--des--fonctions--utiles--------------------------------- */
+int indice_bloc(int x, int y);
+
 /* --Les--fonctions--fournies------------------------------------------------ */
 
 void setup_Lines_Columns_Blocs ( void ){
@@ -83,37 +86,38 @@ void fill_squares_bloc ( int * squares[ ] , int base_li , int base_co ){
       }
 
 void optimise ( void ){
-      int i , iterate ;
-      do {iterate = 0 ;
-          for ( i = 1 ; i <= Size ; i++ )
-              {iterate = optimise_possibilities ( Lines[ i ] ) ;
-               iterate = optimise_possibilities ( Columns[ i ] ) || iterate ;
-               iterate = optimise_possibilities ( Blocs[ i ] ) || iterate ;
-              }
-         }
-      while ( iterate ) ;
-      }
+  int i , iterate ;
+  do {iterate = 0 ;
+    for ( i = 1 ; i <= Size ; i++ ){
+      iterate = optimise_possibilities ( Lines[ i ] ) ;
+      iterate = optimise_possibilities ( Columns[ i ] ) || iterate ;
+      iterate = optimise_possibilities ( Blocs[ i ] ) || iterate ;
+    }
+  }
+  while ( iterate ) ;
+}
 
 int fill_and_count_squares_Sudoku ( int value_list[ ] ){
   int li , co , value , index = 0 , sum = 0 ;
   for ( li = 1 ; li <= Size ; li++ )
-     for ( co = 1 ; co <= Size ; co++ ){
-          value = value_list[ index ++ ] ;
-          Sudoku[ li ][ co ][ VALUE ] = value ;
-          if ( value )
-             sum++ ;
-         }
+    for ( co = 1 ; co <= Size ; co++ ){
+      value = value_list[ index ++ ] ;
+      Sudoku[ li ][ co ][ VALUE ] = value ;
+      if ( value )
+        sum++ ;
+      }
  return( sum ) ;
 }
 
 int main ( void ){
    int solution_found , number_squares ;
-   Size_bloc = 5 ;
+   Size_bloc = 3 ;
    setup_Lines_Columns_Blocs( ) ;
    Optimise_one = 1 ;
    Optimise_two = 1 ;
-   number_squares = fill_and_count_squares_Sudoku( Grid_twenty_five_1 ) ;
+   number_squares = fill_and_count_squares_Sudoku( Grid_nine_1 ) ;
    print_Sudoku( ) ;
+   fill_possibilities() ;
    solution_found = back_track( number_squares ) ;
    if ( solution_found ){
        (void)printf( "\nNous avons trouvé la solution :\n\n" ) ;
@@ -133,6 +137,7 @@ void print_line(int);
 
 /* Fonctions pour les possibilités */
 void initialize_possibilities(int*);
+void set_possibilities(int*, int, int);
 
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_Sudoku ( void ){
@@ -163,7 +168,6 @@ void print_star_line(void){
 
 void print_dash_line(void){
   int i, j;
-  // Boucle pour le nombre de blocs.
   for(i = 0; i < Size_bloc; i++){
     printf("*");
     // Boucle pour le nombre d'élément dans un bloc
@@ -214,27 +218,34 @@ void fill_possibilities ( void ){
         initialize_possibilities( Sudoku[i][j] );
         // On regarde les valeurs sur la ligne, on enlève les valeurs présentes
       }
-      else{
+      else{}
+    }
+  }
       // Alors : On passe a la suivante
       /* Sinon :
-        -
         - On regarde les valeurs sur la ligne, on enlève les valeurs présentes
         - On fait pareil pour la colonne et le bloc*/
-        /*
-        au cretin qui a mis dix an a trouver ça :
-        trouver l'indice du square :
-        X = x-(x%3)
-        Y = y-(y%3)
-        I = (X+3Y)+1 I indice du square
-        */
-        set_possibilities()
+        // Boucle sur les lignes
+  for(i = 1; i <= Size; i++){
+    // Boucle sur les colonnes --> parcours de toutes les cases de la grille
+      for(j = 1; j <= Size; j++){
+      // Test : Est-ce que la case a une valeur?
+      if(Sudoku[i][j][0] == 0){
+        // On trouve les valeurs possibles de la case
+        //i = 2; j = 1;
+        set_possibilities( Sudoku[i][j], j, i );
+        int k;
+        for(k = 1; k <= Size; k++){
+          printf("- %i -", Sudoku[1][1][k]);
+        }
+        printf("\n");
       }
     }
   }
 }
 
 /* Les fonctions auxiliaires de fill_possibilities */
-void initialize_possibilities( int* cell ){
+void initialize_possibilities ( int* cell ){
   int i;
   // On initialise TOUTES les possibilités à 1
   for(i = 1; i <= Size; i++){
@@ -244,9 +255,32 @@ void initialize_possibilities( int* cell ){
   cell[COUNT] = Size;
 }
 
-void set_possibilities(){
+void set_possibilities ( int* cell, int x, int y ){
 
+  int i, bloc_label;
+  bloc_label = indice_bloc(x, y);
+  //on parcours les possibles de la cellule
+  //on parcours les ligne/col/bloc
+
+  for(i = 1 ; i <= Size ; i++){
+    //on met a 0 les valeur != 0 de la ligne/col/bloc dans le cell
+    if(Lines[y][i][0] != 0){
+      cell[Lines[y][i][0]] = 0;
+      //cell[COUNT] --;
+    }
+    if(Columns[x][i][0] != 0){
+      cell[Columns[x][i][0]] = 0;
+      //cell[COUNT] --;
+    }
+    if(Blocs[bloc_label][i][0] != 0){
+        cell[Blocs[bloc_label][i][0]] = 0;
+        //cell[COUNT] --;
+    }
+    //on décrémente le nombre de possible
+  }
 }
+
+
 
 /* --Les--optimisations------------------------------------------------------ */
 
@@ -268,3 +302,16 @@ int back_track ( int squares_filled )
 
 /* Les fonctions auxiliaires de back_track */
 /* -------------------------------------------------------------------------- */
+int indice_bloc(int x, int y){
+  /*
+  trouver l'indice du square (sudoku 9x9) :
+  X = x-(x%3)
+  Y = y-(y%3)
+  I = (X+3Y)+1 I indice du square
+  remplacer les 3 par Size_bloc
+  */
+  int bloc_label
+  bloc_label = (x-(x%Size_bloc))+Size_bloc*(y-(y%Size_bloc))+ 1;
+
+  return bloc_label;
+}
