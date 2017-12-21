@@ -264,17 +264,17 @@ void set_possibilities ( int* cell, int x, int y ){
 
   for(i = 1 ; i <= Size ; i++){
     //on met a 0 les valeur != 0 de la ligne/col/bloc dans le cell
-    if(Lines[y][i][0] != 0){
+    if(Lines[y][i][0] != 0 && cell[Lines[y][i][0]] != 0){
       cell[Lines[y][i][0]] = 0;
       //cell[COUNT] --;
     }
-    if(Columns[x][i][0] != 0){
+    if(Columns[x][i][0] != 0 && cell[Columns[x][i][0]] != 0){
       cell[Columns[x][i][0]] = 0;
       //cell[COUNT] --;
     }
-    if(Blocs[bloc_label][i][0] != 0){
+    if(Blocs[bloc_label][i][0] != 0 && cell[Blocs[bloc_label][i][0]] != 0){
         cell[Blocs[bloc_label][i][0]] = 0;
-        //cell[COUNT] --;
+        //cell[COUNT] --;!
     }
     //on décrémente le nombre de possible
   }
@@ -310,7 +310,7 @@ int indice_bloc(int x, int y){
   I = (X+3Y)+1 I indice du square
   remplacer les 3 par Size_bloc
   */
-  int bloc_label
+  int bloc_label;
   bloc_label = (x-(x%Size_bloc))+Size_bloc*(y-(y%Size_bloc))+ 1;
 
   return bloc_label;
