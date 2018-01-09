@@ -115,7 +115,7 @@ int main ( void ){
    setup_Lines_Columns_Blocs( ) ;
    Optimise_one = 1 ;
    Optimise_two = 1 ;
-   number_squares = fill_and_count_squares_Sudoku( Grid_nine_1 ) ;
+   number_squares = fill_and_count_squares_Sudoku( Grid_nine_3 ) ;
    print_Sudoku( ) ;
    fill_possibilities() ;
    solution_found = back_track( number_squares ) ;
@@ -138,6 +138,9 @@ void print_line(int);
 /* Fonctions pour les possibilités */
 void initialize_possibilities(int*);
 void set_possibilities(int*, int, int);
+
+/* Fonctions auxiliaires du back_track */
+int* search_less_possibilities_cell( void );
 
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_Sudoku ( void ){
@@ -280,10 +283,9 @@ void set_possibilities ( int* cell, int x, int y ){
 
 /* --Les--optimisations------------------------------------------------------ */
 
-int optimise_possibilities ( int * squares[ ] )
-    {
-     /* ... */
-    }
+int optimise_possibilities ( int * squares[ ] ){
+
+}
 
 /* --Une--valeur--proposee--une--seule--fois--------------------------------- */
 /* Les fonctions correspondant a la premiere optimisation */
@@ -291,12 +293,62 @@ int optimise_possibilities ( int * squares[ ] )
 /* Les fonctions correspondant a la seconde optimisation */
 /* --Le--back--track--------------------------------------------------------- */
 
-int back_track ( int squares_filled )
-    {
-     /* ... */
+int back_track ( int squares_filled ){
+  int* cell;
+  int i, result;
+  // Si squares_filled == Size*Size, on retourne 1 : la grille est complète
+  if(squares_filled == (Size * Size))
+    return 1;
+  // Sinon :
+  else{
+    // on calcule les possibilités pour les cases vides
+    fill_possibilities();
+    // on cherche la case vide ayant le moins de possibilités
+    cell = search_less_possibilities_cell();
+    // Si le nombre de possibilités de la cellule est 0 : alors on s'est trompé
+    if(cell[COUNT] == 0)
+      return 0;
+    // Sinon on parcourt les différentes possibilités
+    for(i = 1; i <= Size; i++){
+      // On ne prend que les valeurs possibles
+      if(cell[i] == 1){
+        // On essaie avec la valeur i dans cette case
+        cell[VALUE] = i;
+        result = back_track( squares_filled +1 );
+        // Si le résultat est vrai, alors on renvoie 1
+        if(result == 1)
+          return 1;
+        // Sinon on remet la valeur à 0 et on change de valeur
+        else {
+          cell[VALUE] = 0;
+        }
+      }
     }
+    // On essaie en sortant de la boucle au cas ou... TODO: vraiment utile?
+    if(cell[VALUE] == 0)
+      return 0;
+  }
+}
 
 /* Les fonctions auxiliaires de back_track */
+
+int* search_less_possibilities_cell( void ){
+  int i, j;
+  // Variables temporaires pour le choix de la cellule
+  int* temp_cell;
+  int min_possibility_count = Size;
+
+  for(i = 1; i <= Size; i++){
+    for(j = 1; j <= Size; j++){
+      if((*Sudoku[i][j] == 0) && (Sudoku[i][j][COUNT] < min_possibility_count)){
+        temp_cell = Sudoku[i][j];
+        min_possibility_count = temp_cell[COUNT];
+      }
+    }
+  }
+  return temp_cell;
+}
+
 /* -------------------------------------------------------------------------- */
 int indice_bloc(int x, int y){
   /*
@@ -306,8 +358,5 @@ int indice_bloc(int x, int y){
   I = (X+3Y)+1 I indice du square
   remplacer les 3 par Size_bloc
   */
-  int bloc_label;
-  bloc_label = 3*((y-1)/3)+((x-1)/3)+1;
-
-  return bloc_label;
+  return 3*((y-1)/3)+((x-1)/3)+1;;
 }
