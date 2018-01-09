@@ -115,7 +115,7 @@ int main ( void ){
    setup_Lines_Columns_Blocs( ) ;
    Optimise_one = 1 ;
    Optimise_two = 1 ;
-   number_squares = fill_and_count_squares_Sudoku( Grid_nine_1 ) ;
+   number_squares = fill_and_count_squares_Sudoku( Grid_nine_3 ) ;
    print_Sudoku( ) ;
    fill_possibilities() ;
    solution_found = back_track( number_squares ) ;
@@ -316,13 +316,12 @@ int back_track ( int squares_filled ){
         // Sinon on remet la valeur à 0 et on change de valeur
         else {
           cell[VALUE] = 0;
-          // TODO: Est-ce qu'on enlève la possibilité de i aussi? (cell[i] = 0?)
         }
       }
-      // On essaie en sortant de la boucle au cas ou... TODO: vraiment utile?
-      if(cell[VALUE] == 0)
-        return 0;
     }
+    // On essaie en sortant de la boucle au cas ou... TODO: vraiment utile?
+    if(cell[VALUE] == 0)
+      return 0;
   }
 }
 
@@ -332,7 +331,7 @@ int* search_less_possibilities_cell( void ){
   int i, j;
   // Variables temporaires pour le choix de la cellule
   int* temp_cell;
-  int min_possibility_count = 10;
+  int min_possibility_count = Size;
 
   for(i = 1; i <= Size; i++){
     for(j = 1; j <= Size; j++){
@@ -354,8 +353,5 @@ int indice_bloc(int x, int y){
   I = (X+3Y)+1 I indice du square
   remplacer les 3 par Size_bloc
   */
-  int bloc_label;
-  bloc_label = 3*((y-1)/3)+((x-1)/3)+1;
-
-  return bloc_label;
+  return 3*((y-1)/3)+((x-1)/3)+1;;
 }
