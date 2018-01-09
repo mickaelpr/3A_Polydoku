@@ -248,7 +248,12 @@ void initialize_possibilities ( int* cell ){
   // On initialise le COUNT avec le nombre d'éléments
   cell[COUNT] = Size;
 }
-
+/*----------------------------------------------------------
+| Fonction set_possibilities
+------------------------------------------------------------
+|   remplis les cases sudoku[i][j][value] avec les valeurs
+|   0 ou 1 suivant si la valeur est possible ou non.
+*/
 void set_possibilities ( int* cell, int x, int y ){
 
   int i, bloc_label;
