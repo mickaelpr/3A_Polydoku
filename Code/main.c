@@ -142,6 +142,9 @@ void set_possibilities(int*, int, int);
 /* Fonctions auxiliaires du back_track */
 int* search_less_possibilities_cell( void );
 
+/* Fonctions pour l'optimisation */
+int optimise_line_possibilities( int*, int );
+
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_Sudoku ( void ){
   int i, j;
@@ -285,6 +288,37 @@ void set_possibilities ( int* cell, int x, int y ){
 
 int optimise_possibilities ( int * squares[ ] ){
 
+}
+
+/* Autres fonctions pour l'optimisation */
+
+/**
+ * optimise_line_possibilities:
+ * Prend une cellule et un numero de ligne
+ * Renvoie un 1 si une valeur a été modifiée, 0 sinon.
+ */
+int optimise_line_possibilities( int* cell, int * squares[ ] ){
+  int run_possibilities, run_line;
+  int counter; // Le compteur permet de compter le nombre
+  int result = 0;
+
+  // On parcours les possibilités de la cellule
+  for(run_possibilities = 1; run_possibilities <= Size; run_possibilities++){
+    counter = 0;
+    if(cell[run_possibilities] == 1){
+      for(run_line = 1; run_line <= Size; run_line++){
+        if(squares[run_line][run_possibilities] == 1){
+          counter++;
+        }
+      }
+    }
+    if(counter == 1){
+      cell[VALUE] = run_possibilities;
+      result = 1;
+      break;
+    }
+  }
+  return result;
 }
 
 /* --Une--valeur--proposee--une--seule--fois--------------------------------- */
