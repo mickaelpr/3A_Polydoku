@@ -89,7 +89,7 @@ void optimise ( void ){
   int i , iterate ;
   do {iterate = 0 ;
     for ( i = 1 ; i <= Size ; i++ ){
-      iterate = optimise_possibilities ( Lines[ i ] ) ;
+      iterate = optimise_possibilities ( Lines[ i ] ) || iterate ;
       iterate = optimise_possibilities ( Columns[ i ] ) || iterate ;
       iterate = optimise_possibilities ( Blocs[ i ] ) || iterate ;
     }
@@ -143,8 +143,7 @@ void set_possibilities(int*, int, int);
 int* search_less_possibilities_cell( void );
 
 /* Fonctions pour l'optimisation */
-int optimise_line_possibilities( int*, int );
-
+int optimise_square_possibilities( int * squares[ ] );
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_Sudoku ( void ){
   int i, j;
@@ -287,38 +286,44 @@ void set_possibilities ( int* cell, int x, int y ){
 /* --Les--optimisations------------------------------------------------------ */
 
 int optimise_possibilities ( int * squares[ ] ){
-
+  return  optimise_square_possibilities( squares );
 }
 
 /* Autres fonctions pour l'optimisation */
 
 /**
- * optimise_line_possibilities:
- * Prend une cellule et un numero de ligne
- * Renvoie un 1 si une valeur a été modifiée, 0 sinon.
+ * optimise_square_possibilities:
+ * prend un square et parcour toutes les valeurs pour chaque case,
+ * si une valeur est impossible partout sauf à un endroit, affecte cette valeur
+ * renvoie 1 si une valeur à été modifié, 0 sinon
+ * valOpti : la valeur qu'on cherche a placer,
+ * indiceMem : l'indice de la première cellule ou l'on a rencontré la valeur
+ *             (0 si la valeur n'a jamais été rencontré)
+ * count : le nombre de fois où l'on a rencontré la valeur à optimiser
  */
-int optimise_line_possibilities( int* cell, int * squares[ ] ){
-  int run_possibilities, run_line;
-  int counter; // Le compteur permet de compter le nombre
-  int result = 0;
+int optimise_square_possibilities( int * squares[ ] ){
+  int valOpti, indiceMem, count, hasChanged, i;
 
-  // On parcours les possibilités de la cellule
-  for(run_possibilities = 1; run_possibilities <= Size; run_possibilities++){
-    counter = 0;
-    if(cell[run_possibilities] == 1){
-      for(run_line = 1; run_line <= Size; run_line++){
-        if(squares[run_line][run_possibilities] == 1){
-          counter++;
-        }
+  hasChanged = 0;
+  for(valOpti = 1; valOpti <= Size; valOpti++){
+    count = 0;
+    indiceMem = 0;
+    for(i = 1; i <= Size; i++){
+      if(squares[i][valOpti] == 1){
+        indiceMem = i;
+        count++;
       }
     }
-    if(counter == 1){
-      cell[VALUE] = run_possibilities;
-      result = 1;
-      break;
+    if((count == 1) && (squares[indiceMem][VALUE] == 0) && (squares[indiceMem][COUNT] != 1)){
+        for(i = 1; i <= Size; i++){
+          if(i != valOpti)
+            squares[indiceMem][i] = 0;
+        }
+        squares[indiceMem][COUNT] = 1;
+        hasChanged = 1;
     }
   }
-  return result;
+  return hasChanged;
 }
 
 /* --Une--valeur--proposee--une--seule--fois--------------------------------- */
@@ -337,6 +342,7 @@ int back_track ( int squares_filled ){
   else{
     // on calcule les possibilités pour les cases vides
     fill_possibilities();
+    optimise();
     // on cherche la case vide ayant le moins de possibilités
     cell = search_less_possibilities_cell();
     // Si le nombre de possibilités de la cellule est 0 : alors on s'est trompé
