@@ -111,11 +111,13 @@ int fill_and_count_squares_Sudoku ( int value_list[ ] ){
 
 int main ( void ){
    int solution_found , number_squares ;
-   Size_bloc = 3 ;
+   //Size_bloc = 3 ;
+   Size_bloc = 4 ;
    setup_Lines_Columns_Blocs( ) ;
    Optimise_one = 1 ;
    Optimise_two = 1 ;
-   number_squares = fill_and_count_squares_Sudoku( Grid_nine_3 ) ;
+   //number_squares = fill_and_count_squares_Sudoku( Grid_nine_3 ) ;
+   number_squares = fill_and_count_squares_Sudoku( Grid_sixteen ) ;
    print_Sudoku( ) ;
    fill_possibilities() ;
    solution_found = back_track( number_squares ) ;
@@ -143,12 +145,7 @@ void set_possibilities(int*, int, int);
 int* search_less_possibilities_cell( void );
 
 /* Fonctions pour l'optimisation */
-<<<<<<< HEAD
-int optimise_line_possibilities( int* cell, int * squares[ ]  );
-
-=======
 int optimise_square_possibilities( int * squares[ ] );
->>>>>>> beda61c0444b5383c93fddae468e882982c15c92
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_Sudoku ( void ){
   int i, j;
@@ -223,12 +220,11 @@ void fill_possibilities ( void ){
     // Boucle sur les colonnes --> parcours de toutes les cases de la grille
     for(j = 1; j <= Size; j++){
       // Test : Est-ce que la case a une valeur?
-      if(Sudoku[i][j][0] == 0){
+      if(Sudoku[i][j][VALUE] == 0){
         // On initialise les valeurs possibles a 1
         initialize_possibilities( Sudoku[i][j] );
         // On regarde les valeurs sur la ligne, on enlève les valeurs présentes
       }
-      else{}
     }
   }
       // Alors : On passe a la suivante
@@ -236,7 +232,7 @@ void fill_possibilities ( void ){
         - On regarde les valeurs sur la ligne, on enlève les valeurs présentes
         - On fait pareil pour la colonne et le bloc*/
         // Boucle sur les lignes
-for(i = 1; i <= Size; i++){
+  for(i = 1; i <= Size; i++){
     // Boucle sur les colonnes --> parcours de toutes les cases de la grille
     for(j = 1; j <= Size; j++){
       // Test : Est-ce que la case a une valeur?
@@ -385,7 +381,7 @@ int* search_less_possibilities_cell( void ){
 
   for(i = 1; i <= Size; i++){
     for(j = 1; j <= Size; j++){
-      if((*Sudoku[i][j] == 0) && (Sudoku[i][j][COUNT] < min_possibility_count)){
+      if((Sudoku[i][j][VALUE] == 0) && (Sudoku[i][j][COUNT] < min_possibility_count)){
         temp_cell = Sudoku[i][j];
         min_possibility_count = temp_cell[COUNT];
       }
@@ -403,5 +399,5 @@ int indice_bloc(int x, int y){
   I = (X+3Y)+1 I indice du square
   remplacer les 3 par Size_bloc
   */
-  return 3*((y-1)/3)+((x-1)/3)+1;;
+  return Size_bloc*((y-1)/Size_bloc)+((x-1)/Size_bloc)+1;;
 }
