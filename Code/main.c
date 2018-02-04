@@ -111,11 +111,11 @@ int fill_and_count_squares_Sudoku ( int value_list[ ] ){
 
 int main ( void ){
    int solution_found , number_squares ;
-   Size_bloc = 3 ;
+   Size_bloc = 4 ;
    setup_Lines_Columns_Blocs( ) ;
    Optimise_one = 1 ;
    Optimise_two = 1 ;
-   number_squares = fill_and_count_squares_Sudoku( Grid_nine_3 ) ;
+   number_squares = fill_and_count_squares_Sudoku( Grid_sixteen ) ;
    print_Sudoku( ) ;
    fill_possibilities() ;
    solution_found = back_track( number_squares ) ;
@@ -398,5 +398,5 @@ int indice_bloc(int x, int y){
   I = (X+3Y)+1 I indice du square
   remplacer les 3 par Size_bloc
   */
-  return 3*((y-1)/3)+((x-1)/3)+1;;
+  return Size_bloc*((y-1)/Size_bloc)+((x-1)/Size_bloc)+1;;
 }
