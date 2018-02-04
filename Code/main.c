@@ -111,12 +111,18 @@ int fill_and_count_squares_Sudoku ( int value_list[ ] ){
 
 int main ( void ){
    int solution_found , number_squares ;
+<<<<<<< HEAD
    //Size_bloc = 3 ;
+=======
+>>>>>>> 939a06df84b8b022beb992399763809dee934bcb
    Size_bloc = 4 ;
    setup_Lines_Columns_Blocs( ) ;
    Optimise_one = 1 ;
    Optimise_two = 1 ;
+<<<<<<< HEAD
    //number_squares = fill_and_count_squares_Sudoku( Grid_nine_3 ) ;
+=======
+>>>>>>> 939a06df84b8b022beb992399763809dee934bcb
    number_squares = fill_and_count_squares_Sudoku( Grid_sixteen ) ;
    print_Sudoku( ) ;
    fill_possibilities() ;
