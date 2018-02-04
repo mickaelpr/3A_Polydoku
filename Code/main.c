@@ -143,7 +143,7 @@ void set_possibilities(int*, int, int);
 int* search_less_possibilities_cell( void );
 
 /* Fonctions pour l'optimisation */
-int optimise_line_possibilities( int*, int );
+int optimise_line_possibilities( int* cell, int * squares[ ]  );
 
 /* --La--fonction--d--impression--------------------------------------------- */
 void print_Sudoku ( void ){
